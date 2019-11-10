@@ -8,6 +8,29 @@
 
 import UIKit
 
+// Để xử lý hành động lăn của đối tượng quả bóng, chúng ta chia nhỏ bài toán thành 2 phần.
+// - giải bài toán di chuyển.
+// - giải bài toán xoay.
+// 1 - Hành động di chuyển của đối tượng quả bóng:
+// Để tạo hiệu ứng di chuyển cho đối tượng, sau 0,01s, thay đổi vị trí của đối tượng đi 1 đơn vị. Như vậy, để di chuyển đối tượng từ điểm A đến điểm B. Ta cho hình ảnh quả bóng di chuyển lần lượt qua tập hợp các điểm nằm giữa A và B. => Bài toán cần giải là tìm tập hợp các điểm nằm trên đoạn thẳng AB.
+// Nếu coi màn hình điện thoại là trục XY, thì mỗi điểm trên màn hình có toạ độ CGPoint(x, y) với x, y là  số nguyên.
+// Sử dụng phương pháp vẽ đường thẳng Bersenham, chúng ta sẽ tìm được mảng toạ độ các điểm trên đoạn thẳng AB.
+// Lấy toạ độ tâm (O) của đường tròn là điểm đại diện cho đường tròn, ta cho toạ độ O lần lượt bằng giá trị trong mảng toạ độ AB.
+// 2 - Xoay:
+// Để tạo hiệu ứng xoay, ta phải giải 2 bài toán con là:
+// - quả bóng có chạm và viền màn hình không?
+// - quả bóng sẽ xoay theo hướng nào?
+// 2.1 kiểm tra việc va chạm giữa đường tròn và đoạn thẳng:
+// 1 đường tròn và đường thẳng được coi là va chạm khi và chỉ khi giữa 2 đối tượng có 1 điểm giao nhau duy nhất. Hay nói cách khác, đoạn thẳng đường đi của đường tròn song song với đường thẳng đó. Vậy, để xác định có va chạm không, ta cần tìm 1 điểm trên đoạn thẳng thoả mãn 2 điều kiện:
+// - khoảng cách từ điểm đó đến tâm đường tròn = bán kính đường tròn.
+// - vector tạo bởi tâm đường và và điểm đó phải vuông góc với vector hướng di chuyển của đường tròn.
+// Khi quả bóng di chuyển từ điểm A đến điểm A' thì tâm O di chuyển đến O'. Từ toạ độ của O và O', ta xác định được vector OO'. Từ vector OO', ta sẽ tìm được vector vuông góc với nó. Với dữ kiện đã đó là toạ độ của tâm O và chiều dài vector = bán kính đường tròn. => ta tìm được 2 điểm va chạm tương ứng với 2 vector vuông óc với vector OO'.
+// Nếu mảng toạ độ đường thẳng chứa 1 trong 2 toạ độ này thì đường thẳng va chạm với hình tròn.
+// 2.2 quả bóng sẽ xoay theo hướng nào:
+// từ 2.1, ta sẽ tìm được 2 điểm va chạm của hình tròn và 2 điểm này đối xứng nhau qua vector hướng đi của quả bóng. Như vậy, ta có nhận xét:
+// - Nếu đường thẳng va chạm với điểm nằm bên trái vector, quả bóng sẽ lăn ngược chiều kim đồng hồ.
+// - Nếu đường thẳng va chạm với điểm nằm bên phải vector, quả bóng sẽ lăn thuận chiều kim đồng hồ.
+
 class BallView: UIView {
     // khởi tạo thuộc tính bán kính và màu sắc của hình tròn.
     // 2 thuộc tính này sẽ được khai báo khi khai báo đối tượng BallView.
