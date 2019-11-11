@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kez-aS-AaH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gua-Nb-4S1">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
@@ -10,7 +10,7 @@
         <!--Moving3 View Controller-->
         <scene sceneID="RIY-w7-SBb">
             <objects>
-                <viewController id="Gua-Nb-4S1" customClass="Moving3ViewController" customModule="Day11_UI_exercises" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Gua-Nb-4S1" customClass="Moving3ViewController" customModule="Day11_UI_exercises" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="si9-br-OIL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

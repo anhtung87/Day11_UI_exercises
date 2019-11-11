@@ -34,7 +34,10 @@ class Moving1ViewController: UIViewController {
             color: UIColor.systemBlue,
             boundary: CGPoint(x: self.view.frame.maxX, y: self.view.frame.maxY))
         view.addSubview(ball)
+        
+        // Thêm mảng toạ độ điểm đổi hướng di chuyển của đối tượng
         ball.changedDirectionPoints = self.changedDirectPoints
+        
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
     }
     

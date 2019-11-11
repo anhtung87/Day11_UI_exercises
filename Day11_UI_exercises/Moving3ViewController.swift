@@ -11,38 +11,26 @@ import UIKit
 class Moving3ViewController: UIViewController {
 
     var ball: BallView!
-    let radius: CGFloat = 50.0
+    let radius: CGFloat = 20.0
     var timer: Timer!
     
-    var quarterHeight: CGFloat {
-        return CGFloat(Int(self.view.frame.maxY / 4))
+    var oneThirdHeight: CGFloat {
+        return CGFloat(Int(self.view.frame.maxY / 3))
     }
-    var halfHeight: CGFloat {
-        return CGFloat(Int(self.view.frame.maxY / 2))
-    }
-    var threePartFourHeight: CGFloat {
-        return CGFloat(Int(self.view.frame.maxY / 4 * 3))
+    var TwoThirdHeight: CGFloat {
+        return CGFloat(Int(self.view.frame.maxY / 3 * 2))
     }
     
     var changedDirectPoints: [CGPoint] {
         return [
             CGPoint(x: self.radius, y: self.radius),
-//            CGPoint(x: self.view.frame.maxX - self.radius, y: self.radius),
-            CGPoint(x: self.view.frame.maxX - self.radius, y: self.quarterHeight),
-//            CGPoint(x: self.radius, y: self.quarterHeight),
-            CGPoint(x: self.radius, y: self.halfHeight),
-//            CGPoint(x: self.view.frame.maxX - self.radius, y: self.halfHeight),
-            CGPoint(x: self.view.frame.maxX - self.radius, y: self.threePartFourHeight),
-//            CGPoint(x: self.radius, y: self.threePartFourHeight),
-            CGPoint(x: self.radius, y: self.view.frame.maxY - self.radius),
+            CGPoint(x: self.view.frame.maxX - self.radius, y: self.oneThirdHeight),
+            CGPoint(x: self.radius, y: self.TwoThirdHeight),
             CGPoint(x: self.view.frame.maxX - self.radius, y: self.view.frame.maxY - self.radius),
-//            CGPoint(x: self.view.frame.maxX - self.radius, y: self.threePartFourHeight),
-            CGPoint(x: self.radius, y: self.threePartFourHeight),
-//            CGPoint(x: self.radius, y: self.halfHeight),
-            CGPoint(x: self.view.frame.maxX - self.radius, y: self.halfHeight),
-//            CGPoint(x: self.view.frame.maxX - self.radius, y: self.quarterHeight),
-            CGPoint(x: self.radius, y: self.quarterHeight),
-            CGPoint(x: self.view.frame.maxX - self.radius, y: self.radius),
+            CGPoint(x: self.radius, y: self.view.frame.maxY - self.radius),
+            CGPoint(x: self.view.frame.maxX - self.radius, y: self.TwoThirdHeight),
+            CGPoint(x: self.radius, y: self.oneThirdHeight),
+            CGPoint(x: self.view.frame.maxX - self.radius, y: self.radius)
         ]
     }
     
@@ -58,10 +46,15 @@ class Moving3ViewController: UIViewController {
             boundary: CGPoint(x: self.view.frame.maxX, y: self.view.frame.maxY))
         view.addSubview(ball)
         ball.changedDirectionPoints = self.changedDirectPoints
+        
+        // Cài đặt đoạn đường di chuyển đầu tiên cho đối tượng.
+        // Lý do:
+        // Khi khởi tạo đối tượng, đối tượng được cài đặt mặc định đoạn đường di chuyển từ góc trên bên trái sang góc trên bên phải màn hình. Nếu muốn di chuyển theo hướng khác, phải cài đặt lại điểm bắt đầu, điểm kết thúc và mảng các điểm trên đường đi chuyển.
         ball.startPoint = ball.changedDirectionPoints[0]
         ball.endPoint = ball.changedDirectionPoints[1]
         ball.line = ball.drawLine(startPoint: ball.startPoint, endPoint: ball.endPoint)
-        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.007, target: self, selector: #selector(runTimer), userInfo: nil, repeats: true)
     }
     
     @objc func runTimer() {
