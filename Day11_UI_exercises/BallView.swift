@@ -12,22 +12,33 @@ import UIKit
 // - giải bài toán di chuyển.
 // - giải bài toán xoay.
 // 1 - Hành động di chuyển của đối tượng quả bóng:
-// Để tạo hiệu ứng di chuyển cho đối tượng, sau 0,01s, thay đổi vị trí của đối tượng đi 1 đơn vị. Như vậy, để di chuyển đối tượng từ điểm A đến điểm B. Ta cho hình ảnh quả bóng di chuyển lần lượt qua tập hợp các điểm nằm giữa A và B. => Bài toán cần giải là tìm tập hợp các điểm nằm trên đoạn thẳng AB.
-// Nếu coi màn hình điện thoại là trục XY, thì mỗi điểm trên màn hình có toạ độ CGPoint(x, y) với x, y là  số nguyên.
-// Sử dụng phương pháp vẽ đường thẳng Bersenham, chúng ta sẽ tìm được mảng toạ độ các điểm trên đoạn thẳng AB.
-// Lấy toạ độ tâm (O) của đường tròn là điểm đại diện cho đường tròn, ta cho toạ độ O lần lượt bằng giá trị trong mảng toạ độ AB.
+// Để tạo hiệu ứng di chuyển cho đối tượng, sau 0,01s, thay đổi vị trí của đối tượng đi 1 đơn vị.
+// Như vậy, để di chuyển đối tượng từ điểm A đến điểm B. Ta cho hình ảnh quả bóng di chuyển lần lượt qua
+// tập hợp các điểm nằm giữa A và B. => Bài toán cần giải là tìm tập hợp các điểm nằm trên đoạn thẳng AB.
+// Nếu coi màn hình điện thoại là trục XY, thì mỗi điểm trên màn hình có toạ độ CGPoint(x, y) với x, y là
+// số nguyên.
+// Sử dụng phương pháp vẽ đường thẳng Bersenham, chúng ta sẽ tìm được mảng toạ độ các điểm trên đoạn
+// thẳng AB.
+// Lấy toạ độ tâm (O) của đường tròn là điểm đại diện cho đường tròn, ta cho toạ độ O lần lượt bằng giá
+// trị trong mảng toạ độ AB.
 // 2 - Xoay:
 // Để tạo hiệu ứng xoay, ta phải giải 2 bài toán con là:
 // - quả bóng có chạm và viền màn hình không?
 // - quả bóng sẽ xoay theo hướng nào?
 // 2.1 kiểm tra việc va chạm giữa đường tròn và đoạn thẳng:
-// 1 đường tròn và đường thẳng được coi là va chạm khi và chỉ khi giữa 2 đối tượng có 1 điểm giao nhau duy nhất. Hay nói cách khác, đoạn thẳng đường đi của đường tròn song song với đường thẳng đó. Vậy, để xác định có va chạm không, ta cần tìm 1 điểm trên đoạn thẳng thoả mãn 2 điều kiện:
+// 1 đường tròn và đường thẳng được coi là va chạm khi và chỉ khi giữa 2 đối tượng có 1 điểm giao nhau
+// duy nhất. Hay nói cách khác, đoạn thẳng đường đi của đường tròn song song với đường thẳng đó. Vậy, để
+// xác định có va chạm không, ta cần tìm 1 điểm trên đoạn thẳng thoả mãn 2 điều kiện:
 // - khoảng cách từ điểm đó đến tâm đường tròn = bán kính đường tròn.
 // - vector tạo bởi tâm đường và và điểm đó phải vuông góc với vector hướng di chuyển của đường tròn.
-// Khi quả bóng di chuyển từ điểm A đến điểm A' thì tâm O di chuyển đến O'. Từ toạ độ của O và O', ta xác định được vector OO'. Từ vector OO', ta sẽ tìm được vector vuông góc với nó. Với dữ kiện đã đó là toạ độ của tâm O và chiều dài vector = bán kính đường tròn. => ta tìm được 2 điểm va chạm tương ứng với 2 vector vuông óc với vector OO'.
+// Khi quả bóng di chuyển từ điểm A đến điểm A' thì tâm O di chuyển đến O'. Từ toạ độ của O và O', ta xác
+// định được vector OO'. Từ vector OO', ta sẽ tìm được vector vuông góc với nó. Với dữ kiện đã đó là toạ
+// độ của tâm O và chiều dài vector = bán kính đường tròn. => ta tìm được 2 điểm va chạm tương ứng với 2
+// vector vuông óc với vector OO'.
 // Nếu mảng toạ độ đường thẳng chứa 1 trong 2 toạ độ này thì đường thẳng va chạm với hình tròn.
 // 2.2 quả bóng sẽ xoay theo hướng nào:
-// từ 2.1, ta sẽ tìm được 2 điểm va chạm của hình tròn và 2 điểm này đối xứng nhau qua vector hướng đi của quả bóng. Như vậy, ta có nhận xét:
+// từ 2.1, ta sẽ tìm được 2 điểm va chạm của hình tròn và 2 điểm này đối xứng nhau qua vector hướng đi
+// của quả bóng. Như vậy, ta có nhận xét:
 // - Nếu đường thẳng va chạm với điểm nằm bên trái vector, quả bóng sẽ lăn ngược chiều kim đồng hồ.
 // - Nếu đường thẳng va chạm với điểm nằm bên phải vector, quả bóng sẽ lăn thuận chiều kim đồng hồ.
 
@@ -50,7 +61,8 @@ class BallView: UIView {
     // thứ tự của toạ độ trong mảng toạ độ đổi hướng.
     // toạ độ này chính là điểm endPoint trên đoạn đường quả bóng đang đi.
     // lưu lại vị trí của toạ độ này để quả bóng biết cách lấy giá trị của toạ độ tiếp theo.
-    // giá trị ban đầu của thuộc tính này bằng 1 vì điểm startPoint có thứ tự 0, và điểm endPoint có thứ tự 1 trong mảng toạ độ.
+    // giá trị ban đầu của thuộc tính này bằng 1 vì điểm startPoint có thứ tự 0, và điểm endPoint có thứ
+    // tự 1 trong mảng toạ độ.
     var directPointIndex: Int = 1
     
     // góc nghiêng của quả bóng.
@@ -93,19 +105,53 @@ class BallView: UIView {
         self.endPoint = CGPoint(x: boundary.x - self.radius, y: self.radius)
         self.line = self.drawLine(startPoint: self.startPoint, endPoint: self.endPoint)
         
-        // Khai báo tập hợp các toạ độ trên các đoạn thẳng cho trước. Nếu quả bóng chạm vào các đoạn thẳng này sẽ xảy ra hiện tượng lăn.
-        self.boundaryLines.append(self.drawLine(startPoint: CGPoint(x: 0, y: 0), endPoint: CGPoint(x: boundary.x, y: 0)))
-        self.boundaryLines.append(self.drawLine(startPoint: CGPoint(x: 0, y: 0), endPoint: CGPoint(x: 0, y: boundary.y)))
-        self.boundaryLines.append(self.drawLine(startPoint: CGPoint(x: boundary.x, y: 0), endPoint: CGPoint(x: boundary.x, y: boundary.y)))
-        self.boundaryLines.append(self.drawLine(startPoint: CGPoint(x: 0, y: boundary.y), endPoint: CGPoint(x: boundary.x, y: boundary.y)))
+        // Khai báo tập hợp các toạ độ trên các đoạn thẳng cho trước. Các đoạn thẳng này tương ứng với toạ độ của viền màn hình.
+        // Nếu quả bóng chạm vào các đoạn thẳng này sẽ xảy ra hiện tượng lăn.
+        // Cạnh trên của màn hình
+        self.boundaryLines.append(
+            self.drawLine(
+                startPoint: CGPoint(x: 0, y: 0),
+                endPoint: CGPoint(x: boundary.x, y: 0)
+            )
+        )
+        // Cạnh trái của màn hình
+        self.boundaryLines.append(
+            self.drawLine(
+                startPoint: CGPoint(x: 0, y: 0),
+                endPoint: CGPoint(x: 0, y: boundary.y)
+            )
+        )
+        // Cạnh phải của màn hình
+        self.boundaryLines.append(
+            self.drawLine(
+                startPoint: CGPoint(x: boundary.x, y: 0),
+                endPoint: CGPoint(x: boundary.x, y: boundary.y)
+            )
+        )
+        // Cạnh dưới của màn hình
+        self.boundaryLines.append(
+            self.drawLine(
+                startPoint: CGPoint(x: 0, y: boundary.y),
+                endPoint: CGPoint(x: boundary.x, y: boundary.y)
+            )
+        )
     }
     
     override func draw(_ rect: CGRect) {
         // Vẽ hình dạng cho quả bóng.
         let path = UIBezierPath(
-            ovalIn: CGRect(x: 0, y: 0, width: radius * 2, height: radius * 2))
+            ovalIn: CGRect(
+                x: 0,
+                y: 0,
+                width: radius * 2,
+                height: radius * 2))
+        // Thêm hình ảnh 1 chấm tròn trên đối tượng để thể hiện rõ hơn hành động xoay của đối tượng.
         let smallPath = UIBezierPath(
-            ovalIn: CGRect(x: radius - radius / 6, y: 0, width: radius / 3, height: radius / 3))
+            ovalIn: CGRect(
+                x: radius - radius / 6,
+                y: 0,
+                width: radius / 3,
+                height: radius / 3))
         
         let circle = CAShapeLayer()
         circle.path = path.cgPath
@@ -183,6 +229,9 @@ class BallView: UIView {
         return self.center == self.endPoint
     }
     
+    // Thay đổi lại giá trị điểm bắt đầu và điểm kết thúc của đoạn thẳng mà đối tượng sẽ đi. lưu lại trong 2 biến startPoint
+    // và endPoint; thay đổi mảng toạ độ các điểm trên đoạn thẳng tạo bởi startPoint và endPoint, lưu lại trong biến line;
+    // thay đổi biến đếm lineIndex về 0.
     func switchToNextLine() {
         if self.directPointIndex < self.changedDirectionPoints.count - 1 {
             self.directPointIndex += 1
@@ -246,7 +295,9 @@ class BallView: UIView {
         self.periousCenter = self.center
     }
     
-    // phương thức tính toạ độ các điểm trên đường thẳng khi biết toạ độ của điểm bắt đầu và điểm kết thúc. Công thức là phương pháp vẽ Bersenham. Tuy nhiên, phương pháp Bersenham chỉ sử dụng để vẽ toạ độ (x, y) với x, y là số nguyên và chỉ vẽ được khi đường thẳng tạo với trục hoành 1 góc <= 45 độ. Vì vậy, phải viết hàm áp dụng cho 8 trường hợp để ra được góc 360 độ.
+    // phương thức tính toạ độ các điểm trên đường thẳng khi biết toạ độ của điểm bắt đầu và điểm kết thúc. Công thức là phương
+    // pháp vẽ Bersenham. Tuy nhiên, phương pháp Bersenham chỉ sử dụng để vẽ toạ độ (x, y) với x, y là số nguyên và chỉ vẽ được
+    // khi đường thẳng tạo với trục hoành 1 góc <= 45 độ. Vì vậy, phải viết hàm áp dụng cho 8 trường hợp để ra được góc 360 độ.
     func drawLine(startPoint: CGPoint, endPoint: CGPoint) -> [CGPoint] {
         let startX = Int(startPoint.x)
         let startY = Int(startPoint.y)
