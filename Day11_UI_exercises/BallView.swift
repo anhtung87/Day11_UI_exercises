@@ -178,6 +178,7 @@ class BallView: UIView {
         self.rightPoint = rightPoint
     }
     
+    // Kiểm tra xem tâm đối tượng đã đến cuối đoạn thẳng bằng cách kiểm tra toạ độ của tâm và toạ độ của điểm cuối đoạn thẳng.
     func isFinishedLine() -> Bool {
         return self.center == self.endPoint
     }
@@ -194,6 +195,7 @@ class BallView: UIView {
         self.lineIndex = 0
     }
     
+    // Xác định hướng xoay của đối tượng khi di chuyển
     func rotate() {
         if self.isTouchLeft() {
             self.rotateCounterClockwise()
@@ -203,16 +205,19 @@ class BallView: UIView {
         }
     }
     
+    // xoay đối tượng theo chiều ngược kim đồng hồ
     func rotateCounterClockwise() {
         self.arcBall -= CGFloat(1) / self.radius
         self.transform = CGAffineTransform(rotationAngle: self.arcBall)
     }
     
+    // xoay đối tượng theo chiều thuận kim đồng hồ
     func rotateClockwise() {
         self.arcBall += CGFloat(1) / self.radius
         self.transform = CGAffineTransform(rotationAngle: self.arcBall)
     }
     
+    // đối tượng chạm vào đường thẳng khi mảng toạ độ các điểm trên đường thẳng chứa điểm va chạm
     func isTouchLeft() -> Bool {
         for line in self.boundaryLines {
             for point in line {
@@ -224,6 +229,7 @@ class BallView: UIView {
         return false
     }
     
+    // đối tượng chạm vào đường thẳng khi mảng toạ độ các điểm trên đường thẳng chứa điểm va chạm
     func isTouchRight() -> Bool {
         for line in self.boundaryLines {
             for point in line {
@@ -235,10 +241,12 @@ class BallView: UIView {
         return false
     }
     
+    // ghi nhớ toạ độ tâm của hình tròn
     func rememberLastCenterPoint() {
         self.periousCenter = self.center
     }
     
+    // phương thức tính toạ độ các điểm trên đường thẳng khi biết toạ độ của điểm bắt đầu và điểm kết thúc. Công thức là phương pháp vẽ Bersenham. Tuy nhiên, phương pháp Bersenham chỉ sử dụng để vẽ toạ độ (x, y) với x, y là số nguyên và chỉ vẽ được khi đường thẳng tạo với trục hoành 1 góc <= 45 độ. Vì vậy, phải viết hàm áp dụng cho 8 trường hợp để ra được góc 360 độ.
     func drawLine(startPoint: CGPoint, endPoint: CGPoint) -> [CGPoint] {
         let startX = Int(startPoint.x)
         let startY = Int(startPoint.y)
